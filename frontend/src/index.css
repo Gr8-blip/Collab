@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+@import "tailwindcss";
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.glass-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(129, 140, 248, 0.3) transparent;
+}
+
+.glass-scrollbar::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.glass-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(129, 140, 248, 0.22);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+  transition: background-color 200ms ease;
+}
+
+.glass-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.58);
+  background-clip: padding-box;
+}
+
+.glass-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-scrollbar::-webkit-scrollbar-thumb {
+      transition: none;
+  }
+}
+
+
+@theme {
+  --color-canvas: #03040B;       /* Deeper black-blue to make accents pop */
+  --color-surface: #090D22;      /* Clearer container definition */
+  --color-field: #020308;
+  --color-accent: #6366F1;       /* Electric Indigo */
+  --color-accent-hover: #8B5CF6; /* Neon Violet */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}

@@ -6,9 +6,7 @@
 
 Collab is designed to bring people together in shared digital workspaces where they can organize conversations, communicate in real time, and eventually participate in collaborative activities.
 
-Instead of treating collaboration as one endless chat, Collab organizes it into a hierarchy of **Rooms → Spots → Messages**. Each layer serves a purpose, making collaboration more structured and easier to navigate.
-
-> Built with React, TypeScript, Tailwind CSS, Django REST Framework, PostgreSQL, and WebSockets.
+Instead of treating collaboration as one endless chat, Collab organizes it into a hierarchy of **Rooms → Spots → Messages**.
 
 ---
 
@@ -18,15 +16,13 @@ Collaboration shouldn't feel like digging through an endless pile of messages to
 
 Collab introduces a more organized approach: create a shared space, divide it into focused areas, and let people communicate within the context of each area.
 
-The current release focuses on the core experience: authentication, rooms, Spots, and real-time communication. It establishes the foundation for a broader collaborative workspace where interactive activities can live alongside conversations.
+The current release focuses on the core experience: authentication, Rooms, Spots, and real-time communication. It establishes the foundation for a broader collaborative workspace where interactive activities can live alongside conversations.
 
 ## 🧩 How Collab Works
 
-Collab is built around three core concepts.
-
 ### 1. Rooms — The Collaborative Space
 
-A Room is the foundation of every collaborative experience. It brings people together under a shared space and provides a place to organize focused conversations.
+A Room is the foundation of every collaborative experience.
 
 Rooms can be:
 
@@ -39,8 +35,6 @@ The user who creates a Room becomes its owner. Rooms provide the shared context 
 
 A Spot is a focused space inside a Room, designed to keep conversations organized around specific topics or activities.
 
-Rather than mixing every discussion together, users can create separate Spots for different purposes.
-
 For example, a team working on a project could organize its Room into Spots for planning, development, and general discussion.
 
 Each Room includes a General Spot, giving members a default place to start communicating.
@@ -49,7 +43,7 @@ Each Room includes a General Spot, giving members a default place to start commu
 
 Messages live inside Spots, keeping discussions connected to the topic they're about.
 
-Collab uses a WebSocket-based communication layer to support real-time interaction between connected users. Django REST Framework handles conventional API operations, while WebSockets support live communication.
+Collab uses WebSockets to support real-time interaction between connected users.
 
 Together, these pieces create a structured collaboration flow:
 
@@ -60,38 +54,33 @@ Together, these pieces create a structured collaboration flow:
 ## 🚀 Core Features
 
 ### 🔐 Authentication
-
 - User registration and login.
-- Authenticated access to protected application features.
-- A foundation for user-specific access to collaborative spaces.
+- JWT-based authentication.
+- Automatic access-token refresh.
 
 ### 🌐 Room Management
-
 - Create collaborative Rooms.
 - Choose between public and private visibility.
 - Discover public Rooms.
 - Join accessible Rooms.
-- Identify the Room owner and organize members within a shared workspace.
+- Identify Room ownership and organize members.
 
 ### 🗂️ Spot Management
-
 - Create Spots within a Room.
 - Organize discussions into focused spaces.
-- Navigate between Spots without leaving the Room workspace.
+- Navigate between Spots.
 - Use the General Spot as the default conversation space.
 
 ### ⚡ Real-Time Communication
-
 - WebSocket-based messaging architecture.
-- Live communication between users connected to the same Spot.
-- A message interface integrated into the Room workspace.
+- Live communication between connected users.
+- Message history retrieval.
 
 ### 🎨 Interactive Workspace
-
-- A dashboard for navigating collaborative spaces.
-- A shared Room workspace with sidebar navigation.
+- Dashboard for navigating collaborative spaces.
+- Shared Room workspace with sidebar navigation.
 - Contextual content that changes when users switch between Spots.
-- A focused chat interface for communicating within a selected Spot.
+- Focused chat interface for communicating within a selected Spot.
 
 ---
 
@@ -101,39 +90,197 @@ Collab combines a React frontend, a Django-powered backend, a relational databas
 
 | Layer | Technology | Responsibility |
 |---|---|---|
-| Frontend | React + TypeScript | User interface and application interactions |
-| Styling | Tailwind CSS | Layout, styling, and responsive UI |
-| Backend API | Django REST Framework | Authentication, Rooms, Spots, and application data |
-| Database | PostgreSQL | Persistent application data |
-| Real-time communication | WebSockets with Django Channels | Live communication between connected users |
+| Frontend | React + TypeScript | User interface and interactions |
+| Styling | Tailwind CSS | UI styling |
+| Backend | Django | Application logic |
+| REST API | Django REST Framework | API operations |
+| Database | SQLite (development) | Persistent application data |
+| Real-time communication | Django Channels + WebSockets | Live communication |
+| Authentication | Simple JWT | Token-based authentication |
 
 ### How the Pieces Work Together
 
-1. **The frontend** lets users authenticate, discover or create Rooms, navigate Spots, and interact with the workspace.
-2. **The REST API** handles standard application operations and communicates with the backend's data models.
-3. **PostgreSQL** stores the application's persistent data, including its collaborative entities.
-4. **The WebSocket layer** supports real-time communication, allowing connected clients to exchange messages without relying solely on repeated HTTP requests.
+1. The frontend handles user interactions, authentication, Room navigation, and messaging.
+2. The REST API handles conventional application operations and communicates with backend data models.
+3. SQLite stores persistent application data.
+4. The WebSocket layer supports real-time communication between connected clients.
 
-The API and WebSocket layers serve different purposes: REST handles conventional request-response operations, while WebSockets provide a channel for live events.
+REST and WebSockets serve different purposes: REST handles request-response operations, while WebSockets provide a channel for live events.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **React** — Component-based frontend development.
-- **TypeScript** — Type safety and more maintainable application code.
-- **Tailwind CSS** — Utility-first styling.
-- **Python** — Backend programming language.
-- **Django** — Backend framework.
-- **Django REST Framework** — REST API development.
-- **Django Channels / WebSockets** — Real-time communication.
-- **PostgreSQL** — Relational data storage.
+**Frontend**
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
+- Axios
+- React Router
+- Lucide React
+
+**Backend**
+- Python
+- Django
+- Django REST Framework
+- Django Channels
+- Daphne
+- Django REST Framework Simple JWT
+
+**Database & Communication**
+- SQLite
+- WebSockets
+- Redis support through Channels Redis (optional for the current in-memory configuration)
+
+---
+
+## 💻 Getting Started
+
+Follow these instructions to run Collab locally.
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Python (compatible with Django 6.1)
+- Node.js and npm
+- Git
+
+SQLite is used by default, so no separate database server is required.
+
+### 1. Clone the Repository
+
+```bash
+git clone YOUR_REPOSITORY_URL
+cd Collab
+```
+
+### 2. Set Up the Backend
+
+Navigate into the backend directory:
+
+```bash
+cd backend
+```
+
+Create a Python virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate the virtual environment.
+
+**Windows:**
+
+```bash
+venv\Scripts\activate
+```
+
+**macOS / Linux:**
+
+```bash
+source venv/bin/activate
+```
+
+Install the backend dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure the Backend
+
+The backend needs a Django secret key.
+
+Before running the project, configure the Django `SECRET_KEY` through an environment variable and ensure it is not committed to Git.
+
+For local development, generate a new key rather than reusing the original development key.
+
+The current development configuration uses:
+
+- SQLite as the default database.
+- Django's in-memory channel layer for WebSocket communication.
+- Development CORS settings.
+
+No Redis server is required for the current in-memory channel configuration.
+
+### 4. Apply Database Migrations
+
+From the backend directory, run:
+
+```bash
+python manage.py migrate
+```
+
+Optionally, create an administrator account:
+
+```bash
+python manage.py createsuperuser
+```
+
+### 5. Start the Backend Server
+
+```bash
+python manage.py runserver
+```
+
+The backend should now be accessible at:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Keep this terminal running.
+
+### 6. Set Up the Frontend
+
+Open another terminal and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+### 7. Configure the Frontend
+
+Create a `.env` file inside the frontend directory:
+
+```env
+VITE_API_URL=http://127.0.0.1:8000/
+```
+
+This variable defines the backend API base URL used by Axios.
+
+If you're using a different backend address or port, update the value accordingly.
+
+### 8. Start the Frontend
+
+```bash
+npm run dev
+```
+
+Vite will provide a local development URL, usually:
+
+```text
+http://localhost:5173/
+```
+
+Open that address in your browser.
+
+**Congratulations! Collab is now running locally. 🎉**
 
 ---
 
 ## 🗺️ Current Scope and Roadmap
 
-Collab is currently focused on its **Minimum Viable Product (MVP)**: establishing the essential collaboration experience before expanding into more advanced interactive features.
+Collab is currently focused on its Minimum Viable Product (MVP): establishing the essential collaboration experience before expanding into more advanced interactive features.
 
 ### Current MVP
 
@@ -141,28 +288,26 @@ Collab is currently focused on its **Minimum Viable Product (MVP)**: establishin
 - Public and private Rooms.
 - Room discovery and joining.
 - Spot creation and navigation.
-- A General Spot for each Room.
-- A structured messaging experience.
+- General Spot for each Room.
+- Structured messaging experience.
 - WebSocket-based real-time communication.
 
 ### Planned for Future Releases
 
 - **Live Board:** A shared board for interactive visual collaboration.
-- **Interactive Activities:** Additional ways for users to participate in collaborative experiences within their shared spaces.
-- **Expanded Collaboration Tools:** More capabilities that build on the existing Room and Spot architecture.
+- **Interactive Activities:** Additional ways for users to participate in collaborative experiences within shared spaces.
+- **Expanded Collaboration Tools:** More capabilities built on the existing Room and Spot architecture.
 
-These planned features are not part of the current MVP. They represent the direction in which the platform can grow.
+These planned features are not part of the current MVP.
 
 ---
 
 ## 🎯 Design Principles
 
-Collab is built around a few core ideas:
-
 - **Structured collaboration:** Keep conversations organized instead of placing everything in one feed.
 - **Context matters:** Conversations belong to Spots, and Spots belong to Rooms.
 - **Real-time interaction:** Make communication feel immediate for connected users.
-- **Extensibility:** Build a foundation that can accommodate future interactive tools without losing the core organizational model.
+- **Extensibility:** Build a foundation that can accommodate future interactive tools.
 
 ---
 
